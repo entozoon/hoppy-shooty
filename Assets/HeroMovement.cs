@@ -20,6 +20,8 @@ public class HeroMovement : MonoBehaviour {
   // Specifically for physics calculations
   void FixedUpdate() {
     float inputVertical = Input.GetAxis("Vertical");
+    // Debug.Log("inputVertical = " + inputVertical);
+
     rigidBody.AddRelativeForce(0, 0, speedForward * inputVertical);
   }
 }

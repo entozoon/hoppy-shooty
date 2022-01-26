@@ -20,10 +20,11 @@ public class MeshGenerator : MonoBehaviour {
     mesh.Clear();
     vertices = new Vector3[(xSize + 1) * (zSize + 1)];
     Color[] colors = new Color[vertices.Length];
-    for (int i = 0, z = 0; z <= zSize; z++) {
+    for (int z = 0, i = 0; z <= zSize; z++) {
       for (int x = 0; x <= xSize; x++) {
         // float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 20f;
-        float y = Random.Range(0, yMax);
+        // float y = Random.Range(0, yMax);
+        float y = (i % 3f) / 3f * yMax;
         vertices[i] = new Vector3(x, y, z);
         colors[i] = gradient.Evaluate(y / yMax);
         i++;
