@@ -1,0 +1,19 @@
+{
+  "name": "hoppy-shooty",
+  "version": "1.0.0",
+  "description": "Just messing around, learning Unity",
+  "main": "index.js",
+  "scripts": {
+    "build": "cp -f build-src/** build-web"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/entozoon/hoppy-shooty.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/entozoon/hoppy-shooty/issues"
+  },
+  "homepage": "https://github.com/entozoon/hoppy-shooty#readme"
+}
