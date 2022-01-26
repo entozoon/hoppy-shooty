@@ -7,9 +7,9 @@ public class MeshGenerator : MonoBehaviour {
   MeshCollider meshCollider;
   Vector3[] vertices;
   int[] triangles;
-  private int xSize = 40;
-  private int zSize = 40;
-  private int yMax = 10;
+  private int sizeX = 40;
+  private int sizeZ = 40;
+  private int maxY = 10;
   public Gradient gradient;
   void Start() {
     mesh = GetComponent<MeshFilter>().mesh;
@@ -18,29 +18,41 @@ public class MeshGenerator : MonoBehaviour {
   }
   void MeshMash() {
     mesh.Clear();
-    vertices = new Vector3[(xSize + 1) * (zSize + 1)];
+    vertices = new Vector3[(sizeX + 1) * (sizeZ + 1)];
     Color[] colors = new Color[vertices.Length];
-    for (int z = 0, i = 0; z <= zSize; z++) {
-      for (int x = 0; x <= xSize; x++) {
-        // float y = Mathf.PerlinNoise(x * .3f, z * .3f) * 20f;
-        // float y = Random.Range(0, yMax);
-        float y = (i % 3f) / 3f * yMax;
+    for (int z = 0, i = 0; z <= sizeZ; z++) {
+      for (int x = 0; x <= sizeX; x++) {
+        // float y = (i % 3f) / 3f * maxY;
+        // float y = Random.Range(0, maxY);
+        float y = 0;
+        if (x > sizeX * .4 && x < sizeX * .6 &&
+           z > sizeZ * .4 && z < sizeZ * .6) {
+          y = 0;
+        } else if (x == 1 || z == 1 || x == sizeX - 1 || z == sizeZ - 1) {
+          y = 0;
+        } else if (x == 0 || z == 0 || x == sizeX || z == sizeZ) {
+          y = 30;
+        } else if (x < sizeX * .5) {
+          y = Mathf.PerlinNoise(x * .3f, z * .3f) * maxY * 1.5f;
+        } else if (x > sizeX * .5) {
+          y = (i % 3f) / 3f * maxY;
+        }
         vertices[i] = new Vector3(x, y, z);
-        colors[i] = gradient.Evaluate(y / yMax);
+        colors[i] = gradient.Evaluate(y / maxY);
         i++;
       }
     }
-    triangles = new int[xSize * zSize * 6];
+    triangles = new int[sizeX * sizeZ * 6];
     int vert = 0;
     int tris = 0;
-    for (int z = 0; z < zSize; z++) {
-      for (int x = 0; x < xSize; x++) {
+    for (int z = 0; z < sizeZ; z++) {
+      for (int x = 0; x < sizeX; x++) {
         triangles[tris + 0] = vert + 0;
-        triangles[tris + 1] = vert + xSize + 1;
+        triangles[tris + 1] = vert + sizeX + 1;
         triangles[tris + 2] = vert + 1;
         triangles[tris + 3] = vert + 1;
-        triangles[tris + 4] = vert + xSize + 1;
-        triangles[tris + 5] = vert + xSize + 2;
+        triangles[tris + 4] = vert + sizeX + 1;
+        triangles[tris + 5] = vert + sizeX + 2;
         vert++;
         tris += 6;
       }
